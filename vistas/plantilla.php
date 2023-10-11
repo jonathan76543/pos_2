@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+
+?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +44,7 @@
   <!-- Theme style -->
 
   <link rel="stylesheet" href="vistas
-/dist/css/AdminLTE.min.css">
+/dist/css/AdminLTE.css">   <!-- tenia que cambiar AdminLTE.min.css  por  AdminLTE.css     -->
 
   <!-- AdminLTE Skins. -->
   <link rel="stylesheet" href="vistas
@@ -89,12 +97,16 @@ CUERPO DOCUMENTO
 
 
 
-<body class="hold-transition skin-blue  sidebar-mini">
+<body class="hold-transition skin-blue  sidebar-mini login-page">
 <!-- Site wrapper -->
-<div class="wrapper">
+
 
 
 <?php
+
+if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"){
+
+echo '<div class="wrapper">';
 
 /*===========================================
 
@@ -125,45 +137,31 @@ CONTENIDO
 
 =============================================*/
 
-if(isset($_GET["ruta"])){
+ if(isset($_GET["ruta"])){
 
+      if($_GET["ruta"] == "inicio" ||
+         $_GET["ruta"] == "usuarios" ||
+         $_GET["ruta"] == "categorias" ||
+         $_GET["ruta"] == "productos" ||
+         $_GET["ruta"] == "clientes" ||
+         $_GET["ruta"] == "ventas" ||
+         $_GET["ruta"] == "crear-venta" ||
+         $_GET["ruta"] == "reportes" ||
+         $_GET["ruta"] == "salir"){
 
-  if($_GET["ruta"] == "inicio" ||
+        include "modulos/".$_GET["ruta"].".php";
 
-     $_GET["ruta"] == "usuarios" ||
+      }else{
 
-     $_GET["ruta"] == "categorias" ||
-  
-     $_GET["ruta"] == "productos" ||
+        include "modulos/404.php";
 
-     $_GET["ruta"] == "clientes" ||
+      }
 
-     $_GET["ruta"] == "ventas" ||
+    }else{
 
-     $_GET["ruta"] == "crear-venta" ||
+      include "modulos/inicio.php";
 
-     $_GET["ruta"] == "reportes"){
-
-   include "modulos/".$_GET["ruta"].".php";
-
-
-   } else {
-
-
-
-    include "modulos/404.php";
-
-
-
-     }
-
-   } else{
-
-
-
-    include "modulos/inicio.php";
-   }
-
+    }
  
 
 
@@ -177,20 +175,17 @@ FOOTER
 
 include "modulos/footer.php";
 
+echo '</div>';
+
+}else{
 
 
-
+  include "modulos/login.php";
+}
 
 
 
 ?>
-
-
- 
-
-  
-</div>
-<!-- ./wrapper -->
 
 <script src="vistas/js/plantilla.js"></script> 
 
